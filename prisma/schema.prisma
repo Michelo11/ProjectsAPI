@@ -21,3 +21,10 @@ model Image {
   projectId Int
   path      String
 }
+
+model Review {
+  id      Int    @id @default(autoincrement())
+  author  String
+  comment String
+  rating  Int
+}
