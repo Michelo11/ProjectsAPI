@@ -33,6 +33,7 @@ app.post("/create", upload.array("images"), async (req, res) => {
   for (const file of req.files as any) {
     images.push({
       name: file.originalname,
+      path: file.filename,
     });
   }
   const project = await prisma.project.create({
@@ -48,6 +49,23 @@ app.post("/create", upload.array("images"), async (req, res) => {
     },
   });
   res.json(project);
+});
+
+app.get("/images/:id", async (req, res) => {
+  const { id } = req.params;
+  const image = await prisma.image.findUnique({
+    where: {
+      id: Number(id),
+    },
+  });
+  if (!image) {
+    return res.status(404).json({
+      error: "Image not found",
+    });
+  }
+  res
+    .set("Content-Disposition", 'attachment; filename="' + image.name + '"')
+    .sendFile(image.path, { root: "uploads" });
 });
 
 app.listen(process.env.PORT, () => {
