@@ -1,6 +1,6 @@
 import express from "express";
 import { config } from "dotenv";
-import { PrismaClient } from "@prisma/client";
+import { Owner, PrismaClient } from "@prisma/client";
 import multer from "multer";
 import reviews from "./routes/reviews";
 import projects from "./routes/projects";

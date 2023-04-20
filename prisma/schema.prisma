@@ -7,11 +7,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Owner {
+  id       Int       @id @default(autoincrement())
+  token    String    @unique
+  projects Project[]
+  reviews  Review[]
+}
+
 model Project {
   id          Int     @id @default(autoincrement())
   name        String
   description String
   images      Image[]
+  owner       Owner   @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId     Int
 }
 
 model Image {
@@ -27,4 +36,6 @@ model Review {
   author  String
   comment String
   rating  Int
+  owner   Owner  @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId Int
 }
