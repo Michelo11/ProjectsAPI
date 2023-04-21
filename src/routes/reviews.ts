@@ -27,7 +27,7 @@ app.post(
         rating,
         owner: {
           connect: {
-            token: req.headers.authorization,
+            token: req.headers["X-RapidAPI-User"] as string,
           },
         },
       },
@@ -62,7 +62,7 @@ app.patch(
       });
     }
 
-    if (review.owner.token !== req.headers.authorization) {
+    if (review.owner.token !== req.headers["X-RapidAPI-User"]) {
       return res.status(401).json({
         error: "You are not authorized",
       });
@@ -97,7 +97,7 @@ app.post(
         token,
         owner: {
           connect: {
-            token: req.headers.authorization,
+            token: req.headers["X-RapidAPI-User"] as string,
           },
         },
       },

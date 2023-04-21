@@ -44,7 +44,7 @@ app.post(
         },
         owner: {
           connect: {
-            token: req.headers.authorization,
+            token: req.headers["X-RapidAPI-User"] as string,
           },
         },
       },
@@ -106,7 +106,7 @@ app.patch(
         error: "Project not found",
       });
     }
-    if (project.owner.token !== req.headers.authorization) {
+    if (project.owner.token !== req.headers["X-RapidAPI-User"]) {
       return res.status(401).json({
         error: "You are not authorized",
       });

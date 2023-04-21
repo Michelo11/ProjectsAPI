@@ -21,7 +21,7 @@ app.patch(
     }
     const owner = await prisma.owner.update({
       where: {
-        token: req.headers.authorization,
+        token: req.headers["X-RapidAPI-User"] as string,
       },
       data: {
         name,
@@ -44,7 +44,7 @@ app.get(
   async (req, res) => {
     const owner = await prisma.owner.findUnique({
       where: {
-        token: req.headers.authorization,
+        token: req.headers["X-RapidAPI-User"] as string,
       },
       select: {
         name: true,
@@ -62,7 +62,7 @@ app.get(
   async (req, res) => {
     const owner = await prisma.owner.findUnique({
       where: {
-        token: req.headers.authorization,
+        token: req.headers["X-RapidAPI-User"] as string,
       },
       select: {
         avatar: true,
