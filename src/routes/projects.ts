@@ -73,8 +73,9 @@ app.get("/images/:id", async (req, res) => {
     .sendFile(image.path, { root: "uploads" });
 });
 
-app.put(
+app.patch(
   "/update/:id",
+  upload.array("images"),
   async (req: Request, res, next) => handleAuth(req, res, next),
   async (req, res) => {
     const { id } = req.params;
@@ -82,6 +83,13 @@ app.put(
     if (!name || !description) {
       return res.status(400).json({
         error: "Please provide a name and description",
+      });
+    }
+    const images = [];
+    for (const file of req.files as any) {
+      images.push({
+        name: file.originalname,
+        path: file.filename,
       });
     }
     let project = await prisma.project.findFirst({
@@ -110,6 +118,9 @@ app.put(
       data: {
         name,
         description,
+        images: {
+          create: images,
+        },
       },
       include: {
         images: true,

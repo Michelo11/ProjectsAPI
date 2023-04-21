@@ -35,7 +35,7 @@ app.post(
   }
 );
 
-app.put(
+app.patch(
   "/update/:id",
   async (req, res, next) => handleAuth(req, res, next),
   async (req, res) => {
