@@ -2,20 +2,22 @@ import { NextFunction, Request, Response } from "express";
 import { prisma } from "../main";
 
 export async function handleAuth(req: Request, res: Response, next: NextFunction) {
-    const token = req.headers.authorization;
+    const token = req.headers["X-RapidAPI-User"] as string;
     if (!token) {
         return res.status(401).json({
             error: "You are not authorized",
         });
     }
-    const user = await prisma.owner.findUnique({
+    let user = await prisma.owner.findUnique({
         where: {
             token,
         },
     });
     if (!user) {
-        return res.status(401).json({
-            error: "You are not authorized",
+        user = await prisma.owner.create({
+            data: {
+                token,
+            },
         });
     }
     next();
