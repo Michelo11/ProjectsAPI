@@ -8,10 +8,14 @@ datasource db {
 }
 
 model Owner {
-  id       Int       @id @default(autoincrement())
-  token    String    @unique
-  projects Project[]
-  reviews  Review[]
+  id          Int                @id @default(autoincrement())
+  token       String             @unique
+  projects    Project[]
+  reviews     Review[]
+  invitations ReviewInvitation[]
+  name        String?
+  bio         String?
+  avatar      String?
 }
 
 model Project {
@@ -36,6 +40,13 @@ model Review {
   author  String
   comment String
   rating  Int
+  owner   Owner  @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId Int
+}
+
+model ReviewInvitation {
+  id      Int    @id @default(autoincrement())
+  token   String @unique
   owner   Owner  @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId Int
 }

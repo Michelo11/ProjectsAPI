@@ -3,6 +3,7 @@ import { config } from "dotenv";
 import { Owner, PrismaClient } from "@prisma/client";
 import multer from "multer";
 import cors from "cors";
+import profile from "./routes/profile";
 import reviews from "./routes/reviews";
 import projects from "./routes/projects";
 
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use("/reviews", reviews);
+app.use("/profile", profile);
 app.use("/projects", projects);
 app.use((req, res, next) => {
   const proxy = req.headers["X-RapidAPI-Proxy-Secret"]
