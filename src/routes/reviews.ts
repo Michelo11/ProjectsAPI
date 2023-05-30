@@ -24,10 +24,10 @@ app.post(
       data: {
         author,
         comment,
-        rating,
+        rating: Number(rating),
         owner: {
           connect: {
-            token: req.headers["X-RapidAPI-User"] as string,
+            token: req.headers["x-rapidapi-user"] as string,
           },
         },
       },
@@ -142,7 +142,7 @@ app.post(
       data: {
         author,
         comment,
-        rating,
+        rating: Number(rating),
         owner: {
           connect: {
             token: invitation.owner.token,
