@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "main": "src/main.ts",
   "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/main.js"
+  },
   "dependencies": {
     "@prisma/client": "4.13.0",
     "cors": "^2.8.5",
